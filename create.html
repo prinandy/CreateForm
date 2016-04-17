@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<h1>CREATE INSTANCE</h1>
+<form ng-controller="myCtrl" ng-submit="submit()">
+	Name <input type="text" ng-model="name"/>
+	<pre></pre>
+	Primary server: <select ng-model="priName" ng-change="setchange()" ng-options="x for x in names">
+	</select>
+	<br><br>
+	Domain path: 
+	<div ng-model="path" ng-show="priName && name">
+		{{priName}}\G$\Oracle1035\user_projects\domains\steelwedge_{{name}}_prod
+	</div>
+
+
+	//I want to show the content of above div as well which is changing dynamically
+
+
+		<br>
+	
+			<label>Do any secondary server exist??
+	 		<input type="checkbox" ng-model="checked">
+			</label>
+			<button ng-model="button" ng-disabled="!checked" ng-click="increment(count)" ng-init="count=0">Add server</button>
+
+
+			
+            <span ng-show="isSelected(1) || secvalue" ng-init="secvalue=false">
+            	<pre><select ng-model="secName" ng-options="x for x in names">
+			</select>
+			<div ng-model="path1" ng-show="secName">{{secName}}\G$\Oracle1035\user_projects\domains\steelwedge_{{name}}_prod
+			</div></pre>
+            </span>
+
+            <span ng-show="isSelected(2) || secvalue2" ng-init="secvalue2=false">
+            	<pre><select ng-model="secName2" ng-options="x for x in names">
+			</select>
+			<div ng-model="path2" ng-show="secName2">{{secName}}\G$\Oracle1035\user_projects\domains\steelwedge_{{name}}_prod
+			</div></pre>
+            </span>
+
+            <span ng-show="isSelected(3) || secvalue3" ng-init="secvalue3=false">
+            	<pre><select ng-model="secName3" ng-options="x for x in names">
+			</select>
+			<div ng-model="path3" ng-show="secName3">{{secName}}\G$\Oracle1035\user_projects\domains\steelwedge_{{name}}_prod
+			</div></pre>
+            </span>
+           
+           <span ng-show="isSelected(4)">Please check if you are doing proper entry :P !!</span>
+           <br><br>
+           Select webserver: <input type="radio" ng-model="myVar" value="checked01">SWODWEB01 <input type="radio" ng-model="myVar" value="checked02"> SWODWEB02<input type="radio" ng-model="myVar" value="nothing"> NULL
+           <br><br>
+           SSO Enabled: <input type="radio" ng-model="myUser" value="enabled1">TRUE <input type="radio" ng-model="myUser" value="enabled1">FALSE
+           <br><br>
+           App RAM: <input type="text" ng-model="ram"/> {{ram}}GB
+           <br><br>
+           LDAP: <input type="radio" ng-model="myAuth" value="open">OPENDJ <input type="radio" ng-model="myAuth" value="iplanet">IPLANET
+           <br><br>
+           LDAP Port: <input type="radio" ng-model="myPort" value="port1">389 <input type="radio" ng-model="myPort" value="port2">1389
+           <br><br>
+           <button >SUBMIT</button>
+           <button ng-click="reset()">RESET</button>	
+
+</form>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.names = ["SWODAP01", "SWODAP02","SWODAP04","SWODAP10","SWODAP18",
+                        "SWODAP21","SWODAP23","SWODAP24","SWODAP25","SWODAP26",
+                        "SWODAP30","SWODAP31","SWODAP32","SWODAP33","SWODAP34","SWODAP27"];
+    $scope.increment= function(){
+    	return this.count=this.count+1;
+    };
+
+    $scope.isSelected=function(checktab){
+    	if(this.count=="1")
+    		this.secvalue=true
+    	if(this.count=="2")
+    		this.secvalue2=true
+    	if(this.count=="3")
+    		this.secvalue3=true
+    	return this.count===checktab;
+    };
+
+    var changed="";
+    $scope.setchange=function(){
+    	changed= $scope.priName;
+    };
+
+    $scope.submit = function() {
+        //Modal containing all data should be shown here 
+      };
+});
+
+</script>
+
+
+</body>
+</html>
